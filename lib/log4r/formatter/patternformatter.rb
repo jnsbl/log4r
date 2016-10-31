@@ -108,7 +108,7 @@ module Log4r
         EOS
       end
       # and now the main format method
-      ebuff = "def pf.format(event)\n sprintf(\""
+      ebuff = "def pf.format(event)\n sprintf(%Q("
       _pattern = pf.pattern.dup
       args = [] # the args to sprintf which we'll append to ebuff lastly
       while true # work on each match in turn
@@ -137,7 +137,7 @@ module Log4r
         break if match[7].empty?
         _pattern = match[7]
       end
-      ebuff << '\n", ' + args.join(', ') + ")\n"
+      ebuff << '\n), ' + args.join(', ') + ")\n"
       ebuff << "end\n"
       module_eval ebuff
     end
